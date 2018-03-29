@@ -1,0 +1,10 @@
+{
+  "name": "tiamat-bot",
+  "version": "1.0.0",
+  "description": "Here there be dragons",
+  "main": "bot.js",
+  "author": "Robert",
+  "dependencies": {
+    "discord.js": "^11.3.2",
+  }
+}
