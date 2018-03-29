@@ -1,12 +1,25 @@
+const http = require('http');
 var Discord = require('discord.js');
-var auth = require('./auth.json');
 var replies = require('./replies.json');
 var roll = require('./roll');
 
-var bot = new Discord.Client();
 
+const server = http.createServer();
+server.on('request', (req, res) => {
+    res.writeHead(404, 'This server does nothing');
+    res.end();
+});
+server.listen(process.env.PORT || 5000, (err) => {
+  if (err) {
+    return console.log('something bad happened', err)
+  }
+  console.log('server is listening on ${port}')
+});
+
+
+const bot = new Discord.Client();
 bot.on('ready', function () {
-    console.log("connected");
+    console.log('bot is logged in');
 });
 bot.on('message', function (msg) {
     var isMentioned = false;
@@ -15,7 +28,7 @@ bot.on('message', function (msg) {
         return;
 
     if (msg.mentions.users.size > 0) {
-        if (msg.mentions.users.some(x => x.id === auth.userid))
+        if (msg.mentions.users.some(x => x.id === process.env.discord_userid))
             isMentioned = true;
     }
     if (msg.content.startsWith('!')) {
@@ -28,15 +41,15 @@ bot.on('message', function (msg) {
         handleMention(msg);
     }
 });
-bot.login(auth.token);
+bot.login(process.env.discord_token);
 
 function handleCommand(msg, cmd, args) {
     switch(cmd)
     {
-        case "roar":
-            msg.channel.send("*roars*");
+        case 'roar':
+            msg.channel.send('*roars*');
             break;
-        case "roll":
+        case 'roll':
             roll(msg, args);
             break;
     }
@@ -49,8 +62,8 @@ function handleMention(msg) {
     }
 
     var response = arr[Math.floor(Math.random()*arr.length)];
-    if (response.indexOf("{NAME}") >= 0) {
-        response = response.replace("{NAME}", "<@" + msg.author.id + ">");
+    if (response.indexOf('{NAME}') >= 0) {
+        response = response.replace('{NAME}', '<@' + msg.author.id + '>');
         msg.channel.send(response);
     }
     else{

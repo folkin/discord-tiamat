@@ -5,6 +5,14 @@
   "main": "bot.js",
   "author": "Robert",
   "dependencies": {
-    "discord.js": "^11.3.2",
-  }
+    "discord.js": "^11.3.2"
+  },
+  "engines": {
+    "node": "8.9.1"
+  }, 
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/folkin/discord-tiamat"
+  },
+  "license": "MIT"
 }
