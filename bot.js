@@ -7,7 +7,7 @@ var roll = require('./roll');
 const port = process.env.PORT || 5000;
 const server = http.createServer();
 server.on('request', (req, res) => {
-    res.writeHead(404, 'This server does nothing');
+    res.writeHead(200, 'Sure whatever');
     res.end();
 });
 server.on('close', function () {
