@@ -4,22 +4,38 @@ var replies = require('./replies.json');
 var roll = require('./roll');
 
 
+const port = process.env.PORT || 5000;
 const server = http.createServer();
 server.on('request', (req, res) => {
     res.writeHead(404, 'This server does nothing');
     res.end();
 });
-server.listen(process.env.PORT || 5000, (err) => {
+server.on('close', function () {
+    console.log('http => close');
+});
+server.listen(port, (err) => {
   if (err) {
     return console.log('something bad happened', err)
   }
-  console.log('server is listening on ${port}')
+  console.log('http => open: [' + port + ']');
 });
 
 
 const bot = new Discord.Client();
 bot.on('ready', function () {
-    console.log('bot is logged in');
+    console.log('bot => ready');
+});
+bot.on('disconnect', function (e) {
+    console.log('bot => disconnect: [' + e.code + '] ' + e.reason);
+});
+bot.on('error', function (e) {
+    console.log('bot => error: ' + e.message);
+});
+bot.on('reaconnecting', function () {
+    console.log('bot => reaconnecting');
+});
+bot.on('resume', function (n) {
+    console.log('bot => resume: replayed ' + n + ' events');
 });
 bot.on('message', function (msg) {
     var isMentioned = false;
