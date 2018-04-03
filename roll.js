@@ -19,7 +19,7 @@ var handleCommand = function (msg, args) {
     msg.reply('I don\'t understand `' + text + '`');
     return;
   }
-  msg.channel.send(text);
+  msg.channel.send(text).catch(console.error);
 };
 
 function rollDice(q, d) {

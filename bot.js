@@ -53,7 +53,7 @@ bot.on('message', function (msg) {
         args.splice(0, 1);
         handleCommand(msg, cmd, args);
     }
-    else if (isMentioned) {
+    else if (isMentioned || msg.channel.type === "dm") {
         handleMention(msg);
     }
 });
@@ -63,7 +63,7 @@ function handleCommand(msg, cmd, args) {
     switch(cmd)
     {
         case 'roar':
-            msg.channel.send('*roars*');
+            msg.channel.send('*roars*').catch(console.error);
             break;
         case 'roll':
             roll(msg, args);
@@ -80,9 +80,9 @@ function handleMention(msg) {
     var response = arr[Math.floor(Math.random()*arr.length)];
     if (response.indexOf('{NAME}') >= 0) {
         response = response.replace('{NAME}', '<@' + msg.author.id + '>');
-        msg.channel.send(response);
+        msg.channel.send(response).catch(console.error);
     }
     else{
-        msg.reply(response);
+        msg.reply(response).catch(console.error);
     }
 }
